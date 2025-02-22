@@ -1,0 +1,69 @@
+import { useState, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+
+const motivations = [
+  "Hey queen, you didn’t come this far to stop now. Your goals are still valid. Your dreams still matter. Keep showing up for yourself—even when no one’s clapping yet.",
+  "Some days will test you. Things might not go as planned. Breathe. Regroup. But don’t quit. You’ve overcome so much already—don’t let this moment make you forget that.",
+  "Repeat after me: I am capable. I am worthy. I am becoming. Speak life over yourself. Your words carry power.",
+  "Comparison steals joy. Your journey is yours alone. Celebrate her wins without questioning yours. There’s enough room for all of us to shine.",
+  "It’s okay to rest. Hustling non-stop doesn’t prove anything. Protect your peace, recharge, and then come back stronger. Burnout doesn’t wear well on you.",
+  "Shatter those ceilings, sis. Walk into every room like you belong—because you do. Don’t dim your light for anyone uncomfortable with your glow.",
+  "That idea you’ve been sitting on? Start. That application you’ve been hesitating to submit? Do it. Closed mouths don’t get fed. Speak up, show up, go after it.",
+  "Celebrate the silent wins: getting out of bed when you didn’t want to, sending that email, choosing yourself. The small steps count just as much.",
+  "Surround yourself with women who remind you of your power. Iron sharpens iron. Find your tribe—the ones who push you to dream bigger.",
+  "Your future self is watching, grateful you didn’t give up. Keep believing, keep blooming, keep securing the bag. You are magic. And I’m rooting for you. Always.",
+];
+
+const images = [
+  "/images/motivation1.jpg",
+  "/images/motivation2.jpg",
+  "/images/motivation3.jpg",
+  "/images/motivation4.jpg",
+];
+
+export default function App() {
+  const [quote, setQuote] = useState("");
+  const [image, setImage] = useState("");
+
+  useEffect(() => {
+    generateRandomContent();
+    const interval = setInterval(generateRandomContent, 60000); // Changes every 60 seconds
+    return () => clearInterval(interval);
+  }, []);
+
+  const generateRandomContent = () => {
+    setQuote(motivations[Math.floor(Math.random() * motivations.length)]);
+    setImage(images[Math.floor(Math.random() * images.length)]);
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <Card className="max-w-md w-full shadow-lg rounded-2xl overflow-hidden">
+        <motion.img 
+          key={image}
+          src={image}
+          alt="Motivation" 
+          className="w-full h-64 object-cover"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        />
+        <CardContent className="text-center p-6">
+          <motion.p 
+            className="text-lg font-semibold text-gray-700"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            {quote}
+          </motion.p>
+          <Button className="mt-4" onClick={generateRandomContent}>
+            Inspire Me Again
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
